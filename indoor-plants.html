@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>室内植物图鉴 - 常见植物科普网</title>
+    <style>
+        :root {
+            --primary-green: #7C9D8E;
+            --light-green: #A8C1B4;
+            --pale-green: #F0F4F1;
+            --accent-green: #94B0A9;
+            --text-color: #4A5D54;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--pale-green);
+            color: var(--text-color);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, var(--pale-green) 1px, transparent 1px),
+                radial-gradient(circle at 90% 80%, var(--pale-green) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            position: relative;
+        }
+
+        .container::before,
+        .container::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--light-green);
+            opacity: 0.6;
+        }
+
+        .container::before {
+            top: 20px;
+            left: 20px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .container::after {
+            bottom: 20px;
+            right: 20px;
+            border-left: none;
+            border-top: none;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background-color: var(--light-green);
+        }
+
+        nav {
+            background: var(--primary-green);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        main {
+            padding: 30px;
+        }
+
+        .plant-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .plant-item {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            border: 1px solid var(--light-green);
+            position: relative;
+        }
+
+        .plant-item::before {
+            content: '🪴';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            opacity: 0.2;
+            z-index: 1;
+        }
+
+        .plant-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .plant-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--light-green);
+            position: relative;
+        }
+
+        .plant-info {
+            padding: 20px;
+        }
+
+        .plant-info h2 {
+            color: var(--primary-green);
+            margin-top: 0;
+            font-size: 1.5em;
+        }
+
+        .care-info {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            color: var(--text-color);
+            font-size: 0.9em;
+            background: var(--pale-green);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .care-info span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin: 20px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>室内植物图鉴</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="kpzw.html">返回首页</a></li>
+                <li><a href="#care">养护指南</a></li>
+                <li><a href="#season">季节推荐</a></li>
+                <li><a href="#qa">常见问题</a></li>
+            </ul>
+        </nav>
+        <main>
+            <div class="plant-list">
+                <div class="plant-item">
+                    <img src="https://images.pexels.com/photos/1084199/pexels-photo-1084199.jpeg" alt="绿萝" class="plant-image">
+                    <div class="plant-info">
+                        <h2>绿萝</h2>
+                        <p>绿萝是最受欢迎的室内观叶植物之一，具有很强的适应性和净化空气的功能。</p>
+                        <div class="care-info">
+                            <span>🌧️ 适中浇水</span>
+                            <span>☀️ 散射光</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="plant-item">
+                    <img src="https://images.pexels.com/photos/6297518/pexels-photo-6297518.jpeg" alt="发财树" class="plant-image">
+                    <div class="plant-info">
+                        <h2>发财树</h2>
+                        <p>发财树寓意招财进宝，是非常受欢迎的室内植物，耐阴性强。</p>
+                        <div class="care-info">
+                            <span>🌧️ 少量浇水</span>
+                            <span>☀️ 散射光</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="plant-item">
+                    <img src="https://images.pexels.com/photos/6913125/pexels-photo-6913125.jpeg" alt="龟背竹" class="plant-image">
+                    <div class="plant-info">
+                        <h2>龟背竹</h2>
+                        <p>龟背竹叶片大而美观，是现代家居装饰的热门选择。</p>
+                        <div class="care-info">
+                            <span>🌧️ 定期浇水</span>
+                            <span>☀️ 明亮散射光</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="plant-item">
+                    <img src="https://images.pexels.com/photos/1005058/pexels-photo-1005058.jpeg" alt="散尾葵" class="plant-image">
+                    <div class="plant-info">
+                        <h2>散尾葵</h2>
+                        <p>优雅的室内棕榈植物，叶片如扇形展开，能有效净化空气。</p>
+                        <div class="care-info">
+                            <span>🌧️ 保持土壤湿润</span>
+                            <span>🌤️ 明亮散射光</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="plant-item">
+                    <img src="https://images.pexels.com/photos/3644742/pexels-photo-3644742.jpeg" alt="蝴蝶兰" class="plant-image">
+                    <div class="plant-info">
+                        <h2>蝴蝶兰</h2>
+                        <p>优雅的室内观花植物，花期长，花形似蝴蝶翩翩起舞。</p>
+                        <div class="care-info">
+                            <span>💧 适量浇水</span>
+                            <span>🌤️ 避免阳光直射</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="plant-item">
+                    <img src="https://images.pexels.com/photos/1084188/pexels-photo-1084188.jpeg" alt="虎皮兰" class="plant-image">
+                    <div class="plant-info">
+                        <h2>虎皮兰</h2>
+                        <p>叶片带有独特斑纹，耐阴性强，适合点缀室内角落。</p>
+                        <div class="care-info">
+                            <span>💧 少量浇水</span>
+                            <span>🌤️ 可耐阴</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html> 

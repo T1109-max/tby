@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>园艺技巧 - 常见植物科普网</title>
+    <style>
+        :root {
+            --primary-green: #7C9D8E;
+            --light-green: #A8C1B4;
+            --pale-green: #F0F4F1;
+            --accent-green: #94B0A9;
+            --text-color: #4A5D54;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--pale-green);
+            color: var(--text-color);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, var(--pale-green) 1px, transparent 1px),
+                radial-gradient(circle at 90% 80%, var(--pale-green) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        nav {
+            background: var(--primary-green);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        main {
+            padding: 40px;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .tip-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            border: 1px solid var(--light-green);
+            padding: 20px;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tip-icon {
+            font-size: 2em;
+            color: var(--primary-green);
+            margin-bottom: 15px;
+        }
+
+        .tip-title {
+            color: var(--primary-green);
+            margin: 0 0 15px 0;
+            font-size: 1.4em;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .tip-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--light-green);
+            transition: width 0.3s;
+        }
+
+        .tip-card:hover .tip-title::after {
+            width: 100%;
+        }
+
+        .tip-content {
+            line-height: 1.6;
+        }
+
+        .tip-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        .tip-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .tip-list li::before {
+            content: '🌱';
+            position: absolute;
+            left: 0;
+            color: var(--primary-green);
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--primary-green);
+            font-size: 2em;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--light-green);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-green);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>园艺技巧</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="kpzw.html">返回首页</a></li>
+                <li><a href="plant-guide.html">植物图鉴</a></li>
+                <li><a href="#basic">基础技巧</a></li>
+                <li><a href="#advanced">进阶技巧</a></li>
+            </ul>
+        </nav>
+        <main>
+            <h2 class="section-title">基础园艺技巧</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon">💧</div>
+                    <h3 class="tip-title">浇水技巧</h3>
+                    <div class="tip-content">
+                        <ul class="tip-list">
+                            <li>观察土壤湿度再浇水</li>
+                            <li>早晚浇水效果最佳</li>
+                            <li>浇透不浇满的原则</li>
+                            <li>避免水花溅到叶片</li>
+                            <li>根据季节调整浇水量</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">☀️</div>
+                    <h3 class="tip-title">光照���理</h3>
+                    <div class="tip-content">
+                        <ul class="tip-list">
+                            <li>了解植物光照需求</li>
+                            <li>避免强光直射</li>
+                            <li>定期转动花盆</li>
+                            <li>根据季节调整位置</li>
+                            <li>注意遮阳防晒</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">✂️</div>
+                    <h3 class="tip-title">修剪技巧</h3>
+                    <div class="tip-content">
+                        <ul class="tip-list">
+                            <li>使用清洁的工具</li>
+                            <li>在节点处修剪</li>
+                            <li>去除枯黄叶片</li>
+                            <li>控制株型大小</li>
+                            <li>促进分枝生长</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">进阶园艺技巧</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon">🌱</div>
+                    <h3 class="tip-title">繁殖方法</h3>
+                    <div class="tip-content">
+                        <ul class="tip-list">
+                            <li>扦插繁殖技巧</li>
+                            <li>叶插繁殖方法</li>
+                            <li>分株繁殖要点</li>
+                            <li>播种育苗技巧</li>
+                            <li>生根促进方法</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">🌿</div>
+                    <h3 class="tip-title">病虫害防治</h3>
+                    <div class="tip-content">
+                        <ul class="tip-list">
+                            <li>日常预防措施</li>
+                            <li>常见病虫识别</li>
+                            <li>天然防治方法</li>
+                            <li>农药使用技巧</li>
+                            <li>环境改善方案</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tip-card">
+                    <div class="tip-icon">🪴</div>
+                    <h3 class="tip-title">盆栽艺术</h3>
+                    <div class="tip-content">
+                        <ul class="tip-list">
+                            <li>花盆的选择</li>
+                            <li>造型与修剪</li>
+                            <li>植物搭配技巧</li>
+                            <li>景观设计要点</li>
+                            <li>微型园艺布置</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div class="back-to-top">↑</div>
+    </div>
+
+    <script>
+        // 返回顶部按钮
+        const backToTop = document.querySelector('.back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html> 

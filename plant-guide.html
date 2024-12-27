@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>植物图鉴 - 常见植物科普网</title>
+    <style>
+        :root {
+            --primary-green: #7C9D8E;
+            --light-green: #A8C1B4;
+            --pale-green: #F0F4F1;
+            --accent-green: #94B0A9;
+            --text-color: #4A5D54;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--pale-green);
+            color: var(--text-color);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, var(--pale-green) 1px, transparent 1px),
+                radial-gradient(circle at 90% 80%, var(--pale-green) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        nav {
+            background: var(--primary-green);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        main {
+            padding: 30px;
+        }
+
+        .plant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        .plant-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            border: 1px solid var(--light-green);
+        }
+
+        .plant-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .plant-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--light-green);
+        }
+
+        .plant-info {
+            padding: 20px;
+        }
+
+        .plant-info h2 {
+            color: var(--primary-green);
+            margin: 0 0 10px 0;
+        }
+
+        .plant-info p {
+            margin: 0 0 15px 0;
+            line-height: 1.5;
+        }
+
+        .plant-features {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            background: var(--pale-green);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            border: 1px solid var(--light-green);
+        }
+
+        .search-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid var(--light-green);
+            border-radius: 25px;
+            font-size: 16px;
+        }
+
+        .search-bar button {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 0 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-bar button:hover {
+            background: var(--light-green);
+        }
+
+        .plant-category {
+            margin-bottom: 40px;
+        }
+
+        .category-title {
+            color: var(--primary-green);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-green);
+            margin-bottom: 20px;
+        }
+
+        .plant-card {
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+        .plant-info h3 {
+            color: var(--primary-green);
+            margin: 0 0 10px 0;
+        }
+
+        /* 添加页面滚动动画 */
+        .plant-category {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 优化分类标题 */
+        .category-title {
+            position: relative;
+            display: inline-block;
+            margin-left: 20px;
+            font-size: 1.8em;
+        }
+
+        .category-title::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            width: 4px;
+            height: 70%;
+            background: var(--primary-green);
+            transform: translateY(-50%);
+            border-radius: 2px;
+        }
+
+        /* 优化搜索区域 */
+        .search-section {
+            background: linear-gradient(135deg, var(--pale-green), white);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .search-section h2 {
+            color: var(--primary-green);
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .search-bar input {
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .search-bar input:focus {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        /* 优化植物卡片 */
+        .plant-card {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, white, var(--pale-green) 300%);
+        }
+
+        .plant-card::after {
+            content: '🌱';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            opacity: 0.1;
+        }
+
+        .plant-info h3 {
+            display: inline-block;
+            position: relative;
+        }
+
+        .plant-info h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background: var(--light-green);
+            transition: width 0.3s;
+        }
+
+        .plant-card:hover .plant-info h3::after {
+            width: 100%;
+        }
+
+        .feature-tag {
+            transition: all 0.3s;
+            cursor: default;
+        }
+
+        .feature-tag:hover {
+            background: var(--light-green);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* 添加分类导航 */
+        .category-nav {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 15px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .category-nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .category-nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .category-nav a:hover {
+            background: var(--pale-green);
+            color: var(--primary-green);
+        }
+
+        /* 添加返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-green);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>植物图鉴</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="kpzw.html">返回首页</a></li>
+                <li><a href="indoor-plants.html">室内植物</a></li>
+                <li><a href="outdoor-plants.html">户外植物</a></li>
+                <li><a href="succulent-plants.html">多肉植物</a></li>
+            </ul>
+        </nav>
+        <main>
+            <div class="search-section">
+                <h2>寻找你感兴趣的植物</h2>
+                <div class="search-bar">
+                    <input type="text" placeholder="输入植物名称或特征...">
+                    <button>搜索</button>
+                </div>
+            </div>
+
+            <div class="category-nav">
+                <ul>
+                    <li><a href="#indoor-leaf">观叶植物</a></li>
+                    <li><a href="#indoor-flower">观花植物</a></li>
+                    <li><a href="#succulent">多肉植物</a></li>
+                    <li><a href="#outdoor">户外花卉</a></li>
+                    <li><a href="#large-leaf">大型植物</a></li>
+                </ul>
+            </div>
+
+            <div class="plant-grid">
+                <!-- 室内观叶植物 -->
+                <div class="plant-category">
+                    <h2 class="category-title">室内观叶植物</h2>
+                    <div class="plant-card">
+                        <div class="plant-info">
+                            <h3>龟背竹</h3>
+                            <p>大型观叶植物，叶片开裂独特，具有热带风情。适合客厅、办公室等大空间。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌿 观赏价值高</span>
+                                <span class="feature-tag">💧 喜湿润</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="plant-card">
+                        <div class="plant-info">
+                            <h3>橡皮树</h3>
+                            <p>叶片厚实光亮，树形优美，耐阴性强，适合室内摆放。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌿 净化空气</span>
+                                <span class="feature-tag">🌤️ 耐阴</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="plant-card">
+                        <div class="plant-info">
+                            <h3>常春藤</h3>
+                            <p>藤本植物，叶片常绿，可攀爬，适合装饰墙面或悬挂。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌿 好养活</span>
+                                <span class="feature-tag">🏠 室内外皆宜</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 室内观花植物 -->
+                <div class="plant-category">
+                    <h2 class="category-title">室内观花植物</h2>
+                    <div class="plant-card">
+                        <div class="plant-info">
+                            <h3>蝴蝶兰</h3>
+                            <p>花期长，花形优美，是著名的室内观花植物。需要通风良好的环境。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌸 花期长</span>
+                                <span class="feature-tag">💧 控水</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="plant-card">
+                        <div class="plant-info">
+                            <h3>一品红</h3>
+                            <p>叶片鲜艳，冬季观赏价值高，适合室内装饰。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌺 色彩艳丽</span>
+                                <span class="feature-tag">❄️ 冬季开花</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="plant-card">
+                        <div class="plant-info">
+                            <h3>非洲紫罗兰</h3>
+                            <p>小巧可爱，花色丰富，适合窗台摆放。全年可开花。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌸 四季开花</span>
+                                <span class="feature-tag">🏠 室内最佳</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 多肉植物 -->
+                <div class="plant-category">
+                    <h2 class="category-title">多肉植物</h2>
+                    <div class="plant-card">
+                        <div class="plant-info">
+                            <h3>生石花</h3>
+                            <p>形似鹅卵石，耐旱性强，适合阳台种植。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🪨 形似石头</span>
+                                <span class="feature-tag">☀️ 耐旱</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="plant-card">
+                        <div class="plant-info">
+                            <h3>月季石莲</h3>
+                            <p>叶片呈莲花状排列，颜色随季节变化，观赏价值高。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌺 变色美丽</span>
+                                <span class="feature-tag">🌱 好养护</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="plant-card">
+                        <div class="plant-info">
+                            <h3>熊童子</h3>
+                            <p>叶片��厚，形似小熊掌，适合新手种植。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🐻 造型可爱</span>
+                                <span class="feature-tag">👶 新手友好</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 户外花卉 -->
+                <div class="plant-category">
+                    <h2 class="category-title">户外花卉</h2>
+                    <div class="plant-card">
+                        <div class="plant-info">
+                            <h3>月季</h3>
+                            <p>四季开花，品种繁多，是庭院种植的首选花卉。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌹 花期长</span>
+                                <span class="feature-tag">🌞 喜阳光</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="plant-card">
+                        <div class="plant-info">
+                            <h3>绣球花</h3>
+                            <p>花团簇拥，色彩丰富，适合庭院或阳台种植。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌸 大花球</span>
+                                <span class="feature-tag">💧 喜水湿</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="plant-card">
+                        <div class="plant-info">
+                            <h3>茉莉花</h3>
+                            <p>香气四溢，花开不断，适合阳台或庭院种植。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌸 清香</span>
+                                <span class="feature-tag">🌞 耐热</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 观叶植物 -->
+                <div class="plant-category">
+                    <h2 class="category-title">大型观叶植物</h2>
+                    <div class="plant-card">
+                        <div class="plant-info">
+                            <h3>鹤望兰</h3>
+                            <p>叶片巨大，形似扇子，具有强烈的热带风情。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌴 热带风情</span>
+                                <span class="feature-tag">🏗️ 大型植物</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="plant-card">
+                        <div class="plant-info">
+                            <h3>天堂鸟</h3>
+                            <p>叶片修长，花似飞鸟，是独特的观赏植物。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🦜 形似飞鸟</span>
+                                <span class="feature-tag">🌴 热带植物</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="plant-card">
+                        <div class="plant-info">
+                            <h3>散尾葵</h3>
+                            <p>叶片优美，姿态潇洒，适合大空间摆放。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌴 优雅气质</span>
+                                <span class="feature-tag">🏠 室内外皆宜</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div class="back-to-top">↑</div>
+    </div>
+
+    <script>
+        // 分类导航平滑滚动
+        document.querySelectorAll('.category-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').slice(1);
+                const target = document.getElementById(targetId);
+                target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // 返回顶部按钮
+        const backToTop = document.querySelector('.back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // 搜索功能
+        const searchInput = document.querySelector('.search-bar input');
+        const plantCards = document.querySelectorAll('.plant-card');
+
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            plantCards.forEach(card => {
+                const plantName = card.querySelector('h3').textContent.toLowerCase();
+                const plantDesc = card.querySelector('p').textContent.toLowerCase();
+                const isVisible = plantName.includes(searchTerm) || plantDesc.includes(searchTerm);
+                card.style.display = isVisible ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+</html> 

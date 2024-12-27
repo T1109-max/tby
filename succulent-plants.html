@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多肉植物图鉴 - 常见植物科普网</title>
+    <style>
+        :root {
+            --primary-green: #7C9D8E;
+            --light-green: #A8C1B4;
+            --pale-green: #F0F4F1;
+            --accent-green: #94B0A9;
+            --text-color: #4A5D54;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--pale-green);
+            color: var(--text-color);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, var(--pale-green) 1px, transparent 1px),
+                radial-gradient(circle at 90% 80%, var(--pale-green) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            position: relative;
+        }
+
+        .container::before,
+        .container::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--light-green);
+            opacity: 0.6;
+        }
+
+        .container::before {
+            top: 20px;
+            left: 20px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .container::after {
+            bottom: 20px;
+            right: 20px;
+            border-left: none;
+            border-top: none;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background-color: var(--light-green);
+        }
+
+        nav {
+            background: var(--primary-green);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        main {
+            padding: 30px;
+        }
+
+        .care-guide {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px solid var(--light-green);
+            position: relative;
+        }
+
+        .care-guide::before {
+            content: '🌵';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            opacity: 0.2;
+        }
+
+        .care-tips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .tip-card {
+            background-color: var(--pale-green);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid var(--light-green);
+            transition: transform 0.3s;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .succulent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            padding: 15px 0;
+        }
+
+        .succulent-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            border: 1px solid var(--light-green);
+            position: relative;
+        }
+
+        .succulent-card::before {
+            content: '🎋';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            opacity: 0.2;
+            z-index: 1;
+        }
+
+        .succulent-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .succulent-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--light-green);
+        }
+
+        .succulent-info {
+            padding: 12px;
+        }
+
+        .succulent-info h3 {
+            color: var(--primary-green);
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+
+        .succulent-info p {
+            font-size: 0.85em;
+            line-height: 1.4;
+            margin: 6px 0;
+        }
+
+        .care-level {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: var(--pale-green);
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-top: 8px;
+            border: 1px solid var(--light-green);
+            color: var(--text-color);
+        }
+
+        h2 {
+            color: var(--primary-green);
+            border-bottom: 2px solid var(--light-green);
+            padding-bottom: 10px;
+            margin-top: 0;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .tip-card h3 {
+            color: var(--primary-green);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>多肉植物图鉴</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="kpzw.html">返回首页</a></li>
+                <li><a href="#basics">基础知识</a></li>
+                <li><a href="#types">品种介绍</a></li>
+                <li><a href="#care">养护指南</a></li>
+            </ul>
+        </nav>
+        <main>
+            <section class="care-guide" id="basics">
+                <h2>多肉植物养护基础</h2>
+                <div class="care-tips">
+                    <div class="tip-card">
+                        <h3>🌞 光照要求</h3>
+                        <p>大多数多肉植物喜欢充足的散射光，避免烈日直射。</p>
+                    </div>
+                    <div class="tip-card">
+                        <h3>💧 浇水频率</h3>
+                        <p>遵循"宁干勿湿"的原则，土壤完全干燥后再浇水。</p>
+                    </div>
+                    <div class="tip-card">
+                        <h3>🌡️ 温度控制</h3>
+                        <p>适宜温度在15-25℃之间，注意防寒保暖。</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="types">
+                <h2>常见多肉品种</h2>
+                <div class="succulent-grid">
+                    <div class="succulent-card">
+                        <img src="https://images.pexels.com/photos/4503273/pexels-photo-4503273.jpeg" alt="生石花" class="succulent-image">
+                        <div class="succulent-info">
+                            <h3>生石花</h3>
+                            <p>形似鹅卵石的奇特多肉，耐旱性极强。</p>
+                            <span class="care-level">🌱🌱 中等难度</span>
+                        </div>
+                    </div>
+                    <div class="succulent-card">
+                        <img src="https://images.pexels.com/photos/4503731/pexels-photo-4503731.jpeg" alt="星美人" class="succulent-image">
+                        <div class="succulent-info">
+                            <h3>星美人</h3>
+                            <p>叶片呈星形排列，颜色随季节变化。</p>
+                            <span class="care-level">🌱 适合新手</span>
+                        </div>
+                    </div>
+                    <div class="succulent-card">
+                        <img src="https://images.pexels.com/photos/4503834/pexels-photo-4503834.jpeg" alt="莲花掌" class="succulent-image">
+                        <div class="succulent-info">
+                            <img src="images/lhz.jpg" alt="莲花掌特写" style="
+                                width: 100%;
+                                height: 150px;
+                                object-fit: cover;
+                                border-radius: 8px;
+                                margin-bottom: 10px;
+                                border: 1px solid var(--light-green);">
+                            <h3>莲花掌</h3>
+                            <p>叶片肥厚圆润，形似莲花，好养护。</p>
+                            <span class="care-level">🌱 适合新手</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html> 

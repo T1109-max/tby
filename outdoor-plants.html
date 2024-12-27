@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>户外植物图鉴 - 常见植物科普网</title>
+    <style>
+        :root {
+            --primary-green: #7C9D8E;
+            --light-green: #A8C1B4;
+            --pale-green: #F0F4F1;
+            --accent-green: #94B0A9;
+            --text-color: #4A5D54;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--pale-green);
+            color: var(--text-color);
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, var(--pale-green) 1px, transparent 1px),
+                radial-gradient(circle at 90% 80%, var(--pale-green) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            position: relative;
+        }
+
+        .container::before,
+        .container::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--light-green);
+            opacity: 0.6;
+        }
+
+        .container::before {
+            top: 20px;
+            left: 20px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .container::after {
+            bottom: 20px;
+            right: 20px;
+            border-left: none;
+            border-top: none;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background-color: var(--light-green);
+        }
+
+        nav {
+            background: var(--primary-green);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        main {
+            padding: 30px;
+        }
+
+        .season-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            border: 1px solid var(--light-green);
+            position: relative;
+        }
+
+        .season-section::before {
+            content: '🌺';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            opacity: 0.2;
+        }
+
+        .plant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .plant-card {
+            background-color: var(--pale-green);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            border: 1px solid var(--light-green);
+        }
+
+        .plant-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .plant-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--light-green);
+        }
+
+        .plant-info {
+            padding: 20px;
+        }
+
+        .plant-info h3 {
+            color: var(--primary-green);
+            margin-top: 0;
+            font-size: 1.5em;
+        }
+
+        .plant-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .feature-tag {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: var(--text-color);
+            border: 1px solid var(--light-green);
+        }
+
+        h2 {
+            color: var(--primary-green);
+            border-bottom: 2px solid var(--light-green);
+            padding-bottom: 10px;
+            margin-top: 0;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* 季节图标样式 */
+        #spring::before { content: '🌸'; }
+        #summer::before { content: '☀️'; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>户外植物图鉴</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="kpzw.html">返回首页</a></li>
+                <li><a href="#spring">春季植物</a></li>
+                <li><a href="#summer">夏季植物</a></li>
+                <li><a href="#tips">种植技巧</a></li>
+            </ul>
+        </nav>
+        <main>
+            <div class="season-section" id="spring">
+                <h2>春季推荐植物</h2>
+                <div class="plant-grid">
+                    <div class="plant-card">
+                        <img src="https://images.pexels.com/photos/2300713/pexels-photo-2300713.jpeg" alt="月季" class="plant-image">
+                        <div class="plant-info">
+                            <h3>月季花</h3>
+                            <p>四季开花的观赏花卉，花色丰富，香气怡人。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌞 全日照</span>
+                                <span class="feature-tag">💧 中等浇水</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="https://images.pexels.com/photos/5745941/pexels-photo-5745941.jpeg" alt="杜鹃" class="plant-image">
+                        <div class="plant-info">
+                            <h3>杜鹃花</h3>
+                            <p>春季绽放的经典花卉，花期长，色彩艳丽。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌤️ 半日照</span>
+                                <span class="feature-tag">💧 定期浇水</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="https://images.pexels.com/photos/5766934/pexels-photo-5766934.jpeg" alt="牡丹" class="plant-image">
+                        <div class="plant-info">
+                            <h3>牡丹花</h3>
+                            <p>富贵花卉之首，花大色艳，春季绽放。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌞 全日照</span>
+                                <span class="feature-tag">💧 适量浇水</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="season-section" id="summer">
+                <h2>夏季推荐植物</h2>
+                <div class="plant-grid">
+                    <div class="plant-card">
+                        <img src="https://images.pexels.com/photos/7728082/pexels-photo-7728082.jpeg" alt="绣球" class="plant-image">
+                        <div class="plant-info">
+                            <h3>绣球花</h3>
+                            <p>优雅的大球状花朵，适合庭院种植。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌤️ 半日照</span>
+                                <span class="feature-tag">💧 大量浇水</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="https://images.pexels.com/photos/6463403/pexels-photo-6463403.jpeg" alt="茉莉" class="plant-image">
+                        <div class="plant-info">
+                            <h3>茉莉花</h3>
+                            <p>清香四溢的夏季花卉，适合阳台种植。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌞 全日照</span>
+                                <span class="feature-tag">💧 适量浇水</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="https://images.pexels.com/photos/2422915/pexels-photo-2422915.jpeg" alt="向日葵" class="plant-image">
+                        <div class="plant-info">
+                            <h3>向日葵</h3>
+                            <p>阳光般灿烂的夏季花卉，适合庭院种植。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌞 充足日照</span>
+                                <span class="feature-tag">💧 定期浇水</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="plant-card">
+                        <img src="https://images.pexels.com/photos/2058498/pexels-photo-2058498.jpeg" alt="百合" class="plant-image">
+                        <div class="plant-info">
+                            <h3>百合花</h3>
+                            <p>高雅芳香的花卉，花期长，适合庭院栽培。</p>
+                            <div class="plant-features">
+                                <span class="feature-tag">🌤️ 半日照</span>
+                                <span class="feature-tag">💧 适量浇水</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html> 
